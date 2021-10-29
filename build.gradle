@@ -1,0 +1,19 @@
+apply plugin: 'java-library'
+
+if (project.hasProperty('toolchain')) {
+  java {
+      toolchain {
+          languageVersion = JavaLanguageVersion.of(17)
+      }
+  }
+}
+
+compileJava {
+  options.compilerArgs += ['--add-exports', 'java.management/sun.management=ALL-UNNAMED']
+}
+
+task run(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  jvmArgs('--add-exports', 'java.management/sun.management=ALL-UNNAMED')
+  mainClass = 'net.ckozak.Example'
+}
